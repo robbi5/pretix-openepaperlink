@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.translation import gettext, gettext_lazy as _, gettext_noop  # NoQA
-from pretix.base.forms import SettingsForm, SecretKeySettingsField
+from pretix.base.forms import SecretKeySettingsField, SettingsForm
 from pretix.base.models import Event, Question
 from pretix.control.views.event import EventSettingsFormView, EventSettingsViewMixin
 
@@ -16,26 +16,26 @@ class SeekInkSettingsForm(SettingsForm):
     )
 
     seekink_server_address = forms.CharField(
-        label=_('Server Address'),
-        initial='http://iot.seekink.com',
-        help_text=_('Address to the control-interface, without the /cloudPlatform/'),
+        label=_("Server Address"),
+        initial="http://iot.seekink.com",
+        help_text=_("Address to the control-interface, without the /cloudPlatform/"),
     )
 
     seekink_username = forms.CharField(
-        label=_('Username'),
+        label=_("Username"),
         required=False,
     )
 
     seekink_password = SecretKeySettingsField(
-        label=_('Password'),
+        label=_("Password"),
         required=False,
     )
 
     seekink_dithering_mode = forms.ChoiceField(
-        label=_('Dithering Mode'),
+        label=_("Dithering Mode"),
         choices=[
-            ('0', _('Threshold processing')),
-            ('1', _('Gradient processing')),
+            ("0", _("Threshold processing")),
+            ("1", _("Gradient processing")),
         ],
         initial=0,
     )
@@ -75,9 +75,7 @@ class SeekInkSettings(EventSettingsViewMixin, EventSettingsFormView):
             },
         )
         if not created:
-            question.required = (
-                self.request.event.settings.seekink_push_badges
-            )
+            question.required = self.request.event.settings.seekink_push_badges
             question.save(update_fields=["required"])
 
         messages.warning(

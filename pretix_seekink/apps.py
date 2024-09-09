@@ -21,7 +21,7 @@ class PluginApp(PluginConfig):
         version = __version__
         category = "INTEGRATION"
         compatibility = "pretix>=2.7.0"
-        picture = 'pretix_seekink/logo.png'
+        picture = "pretix_seekink/logo.png"
         experimental = True
 
     def ready(self):

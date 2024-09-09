@@ -2,7 +2,6 @@ from django.db.models import Q
 from django.dispatch import receiver
 from django.urls import resolve, reverse
 from django.utils.translation import gettext_lazy as _  # NoQA
-
 from pretix.base.models import QuestionAnswer
 from pretix.base.settings import settings_hierarkey
 from pretix.base.signals import checkin_created
@@ -46,7 +45,8 @@ def checkin_created(sender, checkin, **kwargs):
         orderposition_id=checkin.position_id,
         question__identifier="pretix_seekink_question",
     ).filter(
-        Q(orderposition__item__badge_assignment__isnull=True) | Q(orderposition__item__badge_assignment__layout__isnull=False)
+        Q(orderposition__item__badge_assignment__isnull=True)
+        | Q(orderposition__item__badge_assignment__layout__isnull=False)
     ):
         send_badge_picture.apply_async(args=(qa.orderposition.pk, qa.answer))
 
