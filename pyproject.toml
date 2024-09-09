@@ -1,0 +1,42 @@
+[project]
+name = "pretix-seekink"
+dynamic = ["version"]
+description = "Use SeekInk eInk Badges for your events"
+readme = "README.rst"
+license = {text = "Apache"}
+keywords = ["pretix"]
+authors = [
+    {name = "Martin Gross", email = "martin@pc-coholic.de"},
+]
+maintainers = [
+    {name = "Martin Gross", email = "martin@pc-coholic.de"},
+]
+
+dependencies = [
+]
+
+[project.entry-points."pretix.plugin"]
+pretix_seekink = "pretix_seekink:PretixPluginMeta"
+
+[project.entry-points."distutils.commands"]
+build = "pretix_plugin_build.build:CustomBuild"
+
+[build-system]
+requires = [
+    "setuptools",
+    "pretix-plugin-build",
+]
+
+[project.urls]
+homepage = "https://github.com/pc-coholic/pretix-seekink/"
+repository = "https://github.com/pc-coholic/pretix-seekink/"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = {attr = "pretix_seekink.__version__"}
+
+[tool.setuptools.packages.find]
+include = ["pretix*"]
+namespaces = false
