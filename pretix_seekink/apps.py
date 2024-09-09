@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.utils.translation import gettext_lazy
 
 from . import __version__
@@ -23,6 +24,14 @@ class PluginApp(PluginConfig):
         compatibility = "pretix>=2.7.0"
         picture = "pretix_seekink/logo.png"
         experimental = True
+
+        @property
+        def restricted(self):
+            if any(
+                domain in settings.SITE_URL for domain in ["pretix.eu", "pretix.dev"]
+            ):
+                return True
+            return False
 
     def ready(self):
         from . import signals  # NOQA
