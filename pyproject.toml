@@ -13,6 +13,7 @@ maintainers = [
 ]
 
 dependencies = [
+    "pdf2image",
 ]
 
 [project.entry-points."pretix.plugin"]
@@ -25,6 +26,7 @@ build = "pretix_plugin_build.build:CustomBuild"
 requires = [
     "setuptools",
     "pretix-plugin-build",
+    "pdf2image",
 ]
 
 [project.urls]
