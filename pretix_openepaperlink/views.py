@@ -54,7 +54,7 @@ class OpenEPaperLinkSettings(EventSettingsViewMixin, EventSettingsFormView):
             event=self.request.event,
             defaults={
                 "type": Question.TYPE_STRING,
-                "question": gettext("OpenEPaperLink Badge MAC-Address"),
+                "question": gettext("OpenEPaperLink Badge MAC address"),
                 "required": self.request.event.settings.openepaperlink_push_badges,
                 "help_text": gettext(
                     "This question has been created automatically by the OpenEPaperLink Badges plugin. "
