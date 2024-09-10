@@ -1,5 +1,5 @@
 [plugin]
-package = "pretix-seekink"
-modules = [ "pretix_seekink" ]
-marketplace_name = "seekink"
+package = "pretix-openepaperlink"
+modules = [ "pretix_openepaperlink" ]
+marketplace_name = "openepaperlink"
 

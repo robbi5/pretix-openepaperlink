@@ -4,13 +4,13 @@ on:
   push:
     branches: [ main, master ]
     paths-ignore:
-      - 'pretix_seekink/locale/**'
-      - 'pretix_seekink/static/**'
+      - 'pretix_openepaperlink/locale/**'
+      - 'pretix_openepaperlink/static/**'
   pull_request:
     branches: [ main, master ]
     paths-ignore:
-      - 'pretix_seekink/locale/**'
-      - 'pretix_seekink/static/**'
+      - 'pretix_openepaperlink/locale/**'
+      - 'pretix_openepaperlink/static/**'
 
 jobs:
   isort:

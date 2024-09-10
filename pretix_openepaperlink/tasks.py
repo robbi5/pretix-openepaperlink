@@ -6,7 +6,7 @@ from pretix.base.models import OrderPosition
 from pretix.celery_app import app
 from pretix.plugins.badges.exporters import OPTIONS, render_pdf
 
-from .client import SeekInkClient
+from .client import OpenEPaperLinkClient
 
 
 @app.task()
@@ -16,14 +16,10 @@ def send_badge_picture(orderposition, mac):
     order = orderpositions.first().order
     event = orderpositions.first().event
 
-    if not (
-        event.settings.get("seekink_server_address", as_type=str)
-        and event.settings.get("seekink_username", as_type=str)
-        and event.settings.get("seekink_password", as_type=str)
-    ):
+    if not event.settings.get("openepaperlink_server_address", as_type=str):
         return
 
-    with tempfile.TemporaryFile() as tmp_file_pdf, tempfile.TemporaryFile() as tmp_file_png:
+    with tempfile.TemporaryFile() as tmp_file_pdf, tempfile.TemporaryFile() as tmp_file_image:
         render_pdf(event, orderpositions, opt=OPTIONS["one"], output_file=tmp_file_pdf)
         tmp_file_pdf.seek(0)
 
@@ -31,39 +27,39 @@ def send_badge_picture(orderposition, mac):
             tmp_file_pdf.read(),
             first_page=1,
             last_page=1,
-            fmt="png",
-            size=(240, 416),
+            fmt="jpeg", 
+            jpegopt={"quality": 100, "progressive": "n"}, 
+            # FIXME make configurable - or pull from pdf size?
+            # 152x152 pixels for 1.54", 296x128 pixels for 2.9", and 400x300 pixels for 4.2".
+            size=(296, 128),
             use_pdftocairo=True,
         )[0]
 
-        image.save(tmp_file_png, format="PNG")
-        tmp_file_png.seek(0)
+        rgb_image = image.convert('RGB')
+        rgb_image.save(tmp_file_image, format='JPEG', quality="maximum")
+        tmp_file_image.seek(0)
 
         try:
-            client = SeekInkClient(
-                event.settings.seekink_server_address,
-                event.settings.seekink_username,
-                event.settings.seekink_password,
-            )
+            client = OpenEPaperLinkClient(event.settings.openepaperlink_server_address)
 
             ret = client.send_picture(
                 mac,
-                event.settings.seekink_dithering_mode,
-                tmp_file_png.read(),
+                event.settings.openepaperlink_dithering_mode,
+                tmp_file_image.read(),
             )
 
-            if ret["code"] == 200:
+            if ret is not None and ret["code"] == 200:
                 order.log_action(
-                    "pretix_seekink.send_picture.success",
+                    "pretix_openepaperlink.send_picture.success",
                     data=ret,
                 )
             else:
                 order.log_action(
-                    "pretix_seekink.send_picture.failed",
+                    "pretix_openepaperlink.send_picture.failed",
                     data=ret,
                 )
         except (JSONDecodeError, IOError, AttributeError) as e:
             order.log_action(
-                "pretix_seekink.send_picture.failed",
+                "pretix_openepaperlink.send_picture.failed",
                 data={"error": str(e)},
             )

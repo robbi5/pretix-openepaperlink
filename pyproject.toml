@@ -1,14 +1,16 @@
 [project]
-name = "pretix-seekink"
+name = "pretix-openepaperlink"
 dynamic = ["version"]
-description = "Use SeekInk eInk Badges for your events"
+description = "Use OpenEPaperLink compatible E-Paper tags as Badges for your events"
 readme = "README.rst"
 license = {text = "Apache"}
 keywords = ["pretix"]
 authors = [
+    {name = "Maximilian Richt", email = "robbi5@robbi5.de"},
     {name = "Martin Gross", email = "martin@pc-coholic.de"},
 ]
 maintainers = [
+    {name = "Maximilian Richt", email = "robbi5@robbi5.de"},
     {name = "Martin Gross", email = "martin@pc-coholic.de"},
 ]
 
@@ -17,7 +19,7 @@ dependencies = [
 ]
 
 [project.entry-points."pretix.plugin"]
-pretix_seekink = "pretix_seekink:PretixPluginMeta"
+pretix_openepaperlink = "pretix_openepaperlink:PretixPluginMeta"
 
 [project.entry-points."distutils.commands"]
 build = "pretix_plugin_build.build:CustomBuild"
@@ -30,14 +32,14 @@ requires = [
 ]
 
 [project.urls]
-homepage = "https://github.com/pc-coholic/pretix-seekink/"
-repository = "https://github.com/pc-coholic/pretix-seekink/"
+homepage = "https://github.com/robbi5/pretix-openepaperlink/"
+repository = "https://github.com/robbi5/pretix-openepaperlink/"
 
 [tool.setuptools]
 include-package-data = true
 
 [tool.setuptools.dynamic]
-version = {attr = "pretix_seekink.__version__"}
+version = {attr = "pretix_openepaperlink.__version__"}
 
 [tool.setuptools.packages.find]
 include = ["pretix*"]

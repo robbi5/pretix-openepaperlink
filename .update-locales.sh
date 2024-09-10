@@ -1,6 +1,6 @@
 #!/bin/sh
-COMPONENTS=pretix/pretix-plugin-pretix-seekink
-DIR=pretix_seekink/locale
+COMPONENTS=pretix/pretix-plugin-pretix-openepaperlink
+DIR=pretix_openepaperlink/locale
 # Renerates .po files used for translating the plugin
 set -e
 set -x

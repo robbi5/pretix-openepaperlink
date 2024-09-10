@@ -1,9 +1,9 @@
-SeekInk eInk Badges
-==========================
+OpenEPaperLink Badges
+=====================
 
 This is a plugin for `pretix`_. 
 
-Use SeekInk eInk Badges for your events
+It enables you to use OpenEPaperLink compatible E-Paper tags / Electronic Shelf Labels as Badges for your events
 
 Development setup
 -----------------
@@ -43,7 +43,7 @@ License
 -------
 
 
-Copyright 2024 Martin Gross
+Copyright 2024 Maximilian Richt, Martin Gross
 
 Released under the terms of the Apache License 2.0
 
